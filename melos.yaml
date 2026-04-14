@@ -1,0 +1,31 @@
+name: save_family_skeleton
+
+packages:
+  - apps/*
+  - modules/*
+  - packages/*
+
+command:
+  bootstrap:
+    runPubGetInParallel: true
+
+scripts:
+  analyze:
+    description: Run flutter analyze on every package
+    exec: flutter analyze
+    packageFilters:
+      flutter: true
+
+  test:
+    description: Run flutter test on every package that has tests
+    exec: flutter test
+    packageFilters:
+      dirExists: test
+
+  gen:
+    description: Run build_runner on every package with code generation
+    run: melos exec --depends-on=build_runner -- "dart run build_runner build --delete-conflicting-outputs"
+
+  watch:
+    description: Watch build_runner on every package with code generation
+    run: melos exec --depends-on=build_runner -- "dart run build_runner watch --delete-conflicting-outputs"

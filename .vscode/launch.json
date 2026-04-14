@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Development",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "apps/mobile_app",
+      "program": "lib/main_development.dart",
+      "toolArgs": [
+        "--dart-define-from-file=config/development.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# melos_managed_dependency_overrides: activity,design_system,home,localizations,navigation,savings_goals
+dependency_overrides:
+  activity:
+    path: ../../modules/activity
+  design_system:
+    path: ../../packages/design_system
+  home:
+    path: ../../modules/home
+  localizations:
+    path: ../../packages/localizations
+  navigation:
+    path: ../../packages/navigation
+  savings_goals:
+    path: ../../modules/savings_goals

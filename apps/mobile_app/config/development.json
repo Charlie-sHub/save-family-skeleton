@@ -1,0 +1,5 @@
+{
+  "env": "development",
+  "apiBaseUrl": "https://api.example.test",
+  "apiOrigin": "https://app.example.test"
+}

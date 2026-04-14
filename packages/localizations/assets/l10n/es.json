@@ -1,0 +1,15 @@
+{
+  "home": "Inicio",
+  "homeWelcome": "Bienvenido",
+  "homeSubtitle": "Este es el módulo de referencia. Usalo como guía para construir tu feature.",
+  "homeRefresh": "Actualizar",
+  "activity": "Actividad",
+  "activityEmpty": "Sin actividad",
+  "loading": "Cargando…",
+  "error": "Algo salió mal",
+  "retry": "Reintentar",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "save": "Guardar",
+  "delete": "Eliminar"
+}

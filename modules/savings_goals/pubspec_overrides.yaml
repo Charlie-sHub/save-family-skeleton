@@ -1,0 +1,8 @@
+# melos_managed_dependency_overrides: design_system,localizations,navigation
+dependency_overrides:
+  design_system:
+    path: ../../packages/design_system
+  localizations:
+    path: ../../packages/localizations
+  navigation:
+    path: ../../packages/navigation

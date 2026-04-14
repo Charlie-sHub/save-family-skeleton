@@ -1,0 +1,15 @@
+{
+  "home": "Home",
+  "homeWelcome": "Welcome",
+  "homeSubtitle": "This is the reference module. Use it as a guide for building your feature.",
+  "homeRefresh": "Refresh",
+  "activity": "Activity",
+  "activityEmpty": "No activity yet",
+  "loading": "Loading…",
+  "error": "Something went wrong",
+  "retry": "Retry",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "save": "Save",
+  "delete": "Delete"
+}
