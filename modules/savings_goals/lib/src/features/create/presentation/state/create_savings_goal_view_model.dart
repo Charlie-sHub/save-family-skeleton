@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:savings_goals/src/features/create/presentation/state/create_savings_goal_view_state.dart';
 
-final createSavingsGoalViewModelProvider = NotifierProvider.autoDispose.family<
-    CreateSavingsGoalViewModel, CreateSavingsGoalViewState, String>(
-  CreateSavingsGoalViewModel.new,
-);
+final createSavingsGoalViewModelProvider = NotifierProvider.autoDispose
+    .family<CreateSavingsGoalViewModel, CreateSavingsGoalViewState, String>(
+      CreateSavingsGoalViewModel.new,
+    );
 
 class CreateSavingsGoalViewModel extends Notifier<CreateSavingsGoalViewState> {
   CreateSavingsGoalViewModel(this.childId);
@@ -16,17 +16,13 @@ class CreateSavingsGoalViewModel extends Notifier<CreateSavingsGoalViewState> {
     return CreateSavingsGoalViewState(childId: childId);
   }
 
-  void updateName(String value) {
-    state = state.copyWith(name: value);
-  }
+  void updateName(String value) => state = state.copyWith(name: value);
 
-  void updateTargetAmount(String value) {
-    state = state.copyWith(targetAmount: value);
-  }
+  void updateTargetAmount(String value) =>
+      state = state.copyWith(targetAmount: value);
 
-  void updateDescription(String value) {
-    state = state.copyWith(description: value);
-  }
+  void updateDescription(String value) =>
+      state = state.copyWith(description: value);
 
   Future<void> submit() async {
     state = state.copyWith(
@@ -43,10 +39,6 @@ class CreateSavingsGoalViewModel extends Notifier<CreateSavingsGoalViewState> {
     );
   }
 
-  void clearEvents() {
-    state = state.copyWith(
-      errorEvent: null,
-      successEvent: null,
-    );
-  }
+  void clearEvents() =>
+      state = state.copyWith(errorEvent: null, successEvent: null);
 }

@@ -3,29 +3,28 @@ import 'package:savings_goals/src/features/detail/presentation/state/savings_goa
 
 typedef SavingsGoalDetailViewModelArgs = ({String childId, String goalId});
 
-final savingsGoalDetailViewModelProvider = NotifierProvider.autoDispose.family<
-    SavingsGoalDetailViewModel,
-    SavingsGoalDetailViewState,
-    SavingsGoalDetailViewModelArgs>(
-  SavingsGoalDetailViewModel.new,
-);
+final savingsGoalDetailViewModelProvider = NotifierProvider.autoDispose
+    .family<
+      SavingsGoalDetailViewModel,
+      SavingsGoalDetailViewState,
+      SavingsGoalDetailViewModelArgs
+    >(SavingsGoalDetailViewModel.new);
 
 class SavingsGoalDetailViewModel extends Notifier<SavingsGoalDetailViewState> {
-  SavingsGoalDetailViewModel(this.args);
+  SavingsGoalDetailViewModel(this.arguments);
 
-  final SavingsGoalDetailViewModelArgs args;
+  final SavingsGoalDetailViewModelArgs arguments;
 
   @override
   SavingsGoalDetailViewState build() {
     return SavingsGoalDetailViewState(
-      childId: args.childId,
-      goalId: args.goalId,
+      childId: arguments.childId,
+      goalId: arguments.goalId,
     );
   }
 
-  void updateContributionAmount(String value) {
-    state = state.copyWith(contributionAmount: value);
-  }
+  void updateContributionAmount(String value) =>
+      state = state.copyWith(contributionAmount: value);
 
   Future<void> submitContribution() async {
     state = state.copyWith(
@@ -42,10 +41,6 @@ class SavingsGoalDetailViewModel extends Notifier<SavingsGoalDetailViewState> {
     );
   }
 
-  void clearEvents() {
-    state = state.copyWith(
-      errorEvent: null,
-      successEvent: null,
-    );
-  }
+  void clearEvents() =>
+      state = state.copyWith(errorEvent: null, successEvent: null);
 }

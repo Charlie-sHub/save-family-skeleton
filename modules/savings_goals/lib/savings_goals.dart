@@ -1,12 +1,3 @@
 export 'src/features/create/create_savings_goal_builder.dart';
-export 'src/features/create/create_savings_goal_screen.dart';
-export 'src/features/create/presentation/state/create_savings_goal_view_model.dart';
-export 'src/features/create/presentation/state/create_savings_goal_view_state.dart';
-export 'src/features/detail/presentation/state/savings_goal_detail_view_model.dart';
-export 'src/features/detail/presentation/state/savings_goal_detail_view_state.dart';
 export 'src/features/detail/savings_goal_detail_builder.dart';
-export 'src/features/detail/savings_goal_detail_screen.dart';
-export 'src/features/list/presentation/state/savings_goals_list_view_model.dart';
-export 'src/features/list/presentation/state/savings_goals_list_view_state.dart';
 export 'src/features/list/savings_goals_list_builder.dart';
-export 'src/features/list/savings_goals_list_screen.dart';
