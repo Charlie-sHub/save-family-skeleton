@@ -1,19 +1,15 @@
+import 'package:savings_goals/src/core/domain/entities/create_savings_goal_request.dart';
 import 'package:savings_goals/src/core/domain/entities/savings_goal.dart';
 
 abstract interface class SavingsGoalsRepository {
   Future<List<SavingsGoal>> fetchGoals(String childId);
 
-  Future<SavingsGoal> createGoal({
-    required String childId,
-    required String name,
-    required double targetAmount,
-    String? description,
-  });
+  Future<SavingsGoal> createGoal(
+    String childId,
+    CreateSavingsGoalRequest request,
+  );
 
-  Future<SavingsGoal> updateProgress({
-    required String goalId,
-    required double amount,
-  });
+  Future<SavingsGoal> updateProgress(String goalId, double amount);
 
   Future<void> deleteGoal(String goalId);
 }

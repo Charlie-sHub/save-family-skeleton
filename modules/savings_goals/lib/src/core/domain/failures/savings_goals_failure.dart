@@ -4,9 +4,10 @@ part 'savings_goals_failure.freezed.dart';
 
 @freezed
 abstract class SavingsGoalsFailure with _$SavingsGoalsFailure {
-  const factory SavingsGoalsFailure.network() = SavingsGoalsNetworkFailure;
-  const factory SavingsGoalsFailure.conflict(String message) =
-      SavingsGoalsConflictFailure;
-  const factory SavingsGoalsFailure.unexpected() =
-      SavingsGoalsUnexpectedFailure;
+  const factory SavingsGoalsFailure.duplicateNameConflict(String message) =
+      SavingsGoalsDuplicateNameConflictFailure;
+  const factory SavingsGoalsFailure.networkError() =
+      SavingsGoalsNetworkErrorFailure;
+  const factory SavingsGoalsFailure.unknownError() =
+      SavingsGoalsUnknownErrorFailure;
 }
