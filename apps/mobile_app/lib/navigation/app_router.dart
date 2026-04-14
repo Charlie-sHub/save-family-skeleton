@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:home/home.dart';
 import 'package:localizations/localizations.dart';
 import 'package:navigation/navigation.dart';
+import 'package:savings_goals/savings_goals.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 late final GoRouter appRouter;
@@ -26,6 +27,21 @@ void configureAppRouter() {
                 path: AppRoutes.home,
                 name: 'home',
                 pageBuilder: const HomeBuilder().buildPage,
+              ),
+              GoRoute(
+                path: AppRoutes.savingsGoalsList,
+                name: 'savingsGoalsList',
+                pageBuilder: const SavingsGoalsListBuilder().buildPage,
+              ),
+              GoRoute(
+                path: AppRoutes.createSavingsGoal,
+                name: 'createSavingsGoal',
+                pageBuilder: const CreateSavingsGoalBuilder().buildPage,
+              ),
+              GoRoute(
+                path: AppRoutes.savingsGoalDetail,
+                name: 'savingsGoalDetail',
+                pageBuilder: const SavingsGoalDetailBuilder().buildPage,
               ),
             ],
           ),

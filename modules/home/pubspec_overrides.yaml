@@ -6,3 +6,4 @@ dependency_overrides:
     path: ../../packages/localizations
   navigation:
     path: ../../packages/navigation
+  source_gen: ^4.2.2
