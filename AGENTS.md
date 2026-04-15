@@ -93,6 +93,11 @@ Prioritize:
 
 Do not create placeholder tests with comments only. Add tests when the relevant contracts are defined clearly enough to make them meaningful.
 
+- Prefer tests to follow the Arrange / Act / Assert structure when it improves readability.
+- In test files, use the exact section comments `// Arrange`, `// Act`, and `// Assert` for that structure.
+- Scope this commenting convention to tests only.
+- Do not add comparable comments in production code unless the user explicitly asks for them.
+
 ## Validation
 
 Use the lightest validation that proves the change.
