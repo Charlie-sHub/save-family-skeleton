@@ -1,5 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:localizations/localizations.dart';
 
 class HomeChildSummaryCard extends StatelessWidget {
   const HomeChildSummaryCard({
@@ -52,6 +53,7 @@ class HomeChildSummaryCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
                     Icons.flag_outlined,
@@ -59,24 +61,17 @@ class HomeChildSummaryCard extends StatelessWidget {
                     color: theme.colorFor(ThemeCode.textSecondary),
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    '$goalsCount',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorFor(ThemeCode.textPrimary),
+                  Expanded(
+                    child: Text(
+                      _summaryText(context),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorFor(ThemeCode.textPrimary),
+                      ),
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                '${_formatAmount(totalCurrentAmount)} / ${_formatAmount(totalTargetAmount)}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: theme.colorFor(ThemeCode.buttonPrimary),
-                ),
               ),
             ],
           ),
@@ -91,5 +86,20 @@ class HomeChildSummaryCard extends StatelessWidget {
     } else {
       return '€${amount.toStringAsFixed(2)}';
     }
+  }
+
+  String _summaryText(BuildContext context) {
+    final summaryKey = goalsCount == 1
+        ? I18n.homeChildSummarySingleGoal
+        : I18n.homeChildSummaryMultipleGoals;
+
+    return context.translate(
+      summaryKey,
+      args: {
+        'goalsCount': '$goalsCount',
+        'currentAmount': _formatAmount(totalCurrentAmount),
+        'targetAmount': _formatAmount(totalTargetAmount),
+      },
+    );
   }
 }

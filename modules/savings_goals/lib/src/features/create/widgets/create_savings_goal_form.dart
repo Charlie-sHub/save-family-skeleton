@@ -1,13 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-
-const _nameLabel = 'Name';
-const _nameHint = 'Enter a goal name';
-const _targetAmountLabel = 'Target amount';
-const _targetAmountHint = 'Enter the target amount';
-const _descriptionLabel = 'Description';
-const _descriptionHint = 'Add an optional description';
-const _submitLabel = 'Create goal';
+import 'package:localizations/localizations.dart';
 
 class CreateSavingsGoalForm extends StatelessWidget {
   const CreateSavingsGoalForm({
@@ -39,31 +32,31 @@ class CreateSavingsGoalForm extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       children: [
         SfTextInput(
-          label: _nameLabel,
-          hintText: _nameHint,
+          label: context.translate(I18n.savingsGoalsCreateNameLabel),
+          hintText: context.translate(I18n.savingsGoalsCreateNameHint),
           errorText: nameErrorText,
           maxLength: 40,
           onChanged: onNameChanged,
         ),
         const SizedBox(height: 16),
         SfTextInput(
-          label: _targetAmountLabel,
-          hintText: _targetAmountHint,
+          label: context.translate(I18n.savingsGoalsCreateTargetAmountLabel),
+          hintText: context.translate(I18n.savingsGoalsCreateTargetAmountHint),
           errorText: targetAmountErrorText,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           onChanged: onTargetAmountChanged,
         ),
         const SizedBox(height: 16),
         SfTextInput(
-          label: _descriptionLabel,
-          hintText: _descriptionHint,
+          label: context.translate(I18n.savingsGoalsCreateDescriptionLabel),
+          hintText: context.translate(I18n.savingsGoalsCreateDescriptionHint),
           errorText: descriptionErrorText,
           maxLength: 200,
           onChanged: onDescriptionChanged,
         ),
         const SizedBox(height: 24),
         PrimaryButton(
-          label: _submitLabel,
+          label: context.translate(I18n.savingsGoalsCreateSubmitLabel),
           onPressed: isSubmitting || !isSubmitEnabled ? null : () => onSubmit(),
           isLoading: isSubmitting,
         ),

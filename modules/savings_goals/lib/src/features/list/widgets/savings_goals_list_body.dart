@@ -1,16 +1,11 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:localizations/localizations.dart';
 import 'package:savings_goals/src/features/list/presentation/state/savings_goals_list_view_state.dart';
 import 'package:savings_goals/src/features/list/widgets/savings_goal_card.dart';
 import 'package:savings_goals/src/features/list/widgets/savings_goals_list_message_view.dart';
 
 const _statusStateHeight = 320.0;
-const _errorTitle = 'Something went wrong';
-const _retryLabel = 'Retry';
-const _emptyTitle = 'No savings goals yet';
-const _emptyDescription =
-    'Create the first goal for this child to get started.';
-const _createGoalLabel = 'Create goal';
 
 class SavingsGoalsListBody extends StatelessWidget {
   const SavingsGoalsListBody({
@@ -47,9 +42,9 @@ class SavingsGoalsListBody extends StatelessWidget {
       return _buildStatusState(
         child: SavingsGoalsListMessageView(
           theme: theme,
-          title: _errorTitle,
+          title: context.translate(I18n.error),
           description: loadErrorDescription,
-          actionLabel: _retryLabel,
+          actionLabel: context.translate(I18n.retry),
           onPressed: onRetry,
         ),
       );
@@ -57,9 +52,9 @@ class SavingsGoalsListBody extends StatelessWidget {
       return _buildStatusState(
         child: SavingsGoalsListMessageView(
           theme: theme,
-          title: _emptyTitle,
-          description: _emptyDescription,
-          actionLabel: _createGoalLabel,
+          title: context.translate(I18n.savingsGoalsListEmptyTitle),
+          description: context.translate(I18n.savingsGoalsListEmptyDescription),
+          actionLabel: context.translate(I18n.savingsGoalsListCreateCta),
           onPressed: onCreateGoal,
         ),
       );

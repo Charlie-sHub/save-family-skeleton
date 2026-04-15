@@ -1,8 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:localizations/localizations.dart';
 import 'package:savings_goals/src/core/domain/entities/savings_goal.dart';
-
-const _deleteGoalTooltip = 'Delete goal';
 
 class SavingsGoalCard extends StatelessWidget {
   const SavingsGoalCard({
@@ -68,7 +67,7 @@ class SavingsGoalCard extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: onDelete,
-                    tooltip: _deleteGoalTooltip,
+                    tooltip: context.translate(I18n.delete),
                     icon: Icon(
                       Icons.delete_outline,
                       color: theme.colorFor(ThemeCode.error),

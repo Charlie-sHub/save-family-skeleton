@@ -2,23 +2,10 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localizations/localizations.dart';
 import 'package:savings_goals/src/features/create/presentation/state/create_savings_goal_view_model.dart';
 import 'package:savings_goals/src/features/create/presentation/state/create_savings_goal_view_state.dart';
 import 'package:savings_goals/src/features/create/widgets/create_savings_goal_form.dart';
-
-const _screenTitle = 'New savings goal';
-const _successMessage = 'Savings goal created.';
-const _submitFailureFallback = 'We could not create the savings goal.';
-const _nameRequiredMessage = 'Please enter a name.';
-const _nameTooShortMessage = 'Name must be at least 3 characters.';
-const _nameTooLongMessage = 'Name must be at most 40 characters.';
-const _targetAmountRequiredMessage = 'Please enter a target amount.';
-const _targetAmountInvalidMessage = 'Enter a valid amount.';
-const _targetAmountMustBeGreaterThanZeroMessage =
-    'Amount must be greater than 0.';
-const _targetAmountTooHighMessage = 'Amount must be 10000 or less.';
-const _descriptionTooLongMessage =
-    'Description must be at most 200 characters.';
 
 class CreateSavingsGoalScreen extends ConsumerWidget {
   const CreateSavingsGoalScreen({
@@ -40,7 +27,7 @@ class CreateSavingsGoalScreen extends ConsumerWidget {
         return;
       } else {
         final messenger = ScaffoldMessenger.of(context);
-        final message = _snackBarMessage(next);
+        final message = _snackBarMessage(context, next);
 
         if (message != null) {
           messenger.hideCurrentSnackBar();
@@ -52,9 +39,9 @@ class CreateSavingsGoalScreen extends ConsumerWidget {
 
           if (message != null) {
             messenger.showSnackBar(
-              const SnackBar(
-                content: Text(_successMessage),
-                duration: Duration(seconds: 2),
+              SnackBar(
+                content: Text(message),
+                duration: const Duration(seconds: 2),
               ),
             );
           }
@@ -77,17 +64,22 @@ class CreateSavingsGoalScreen extends ConsumerWidget {
       key: ValueKey<String>('create_savings_goal_screen_${state.childId}'),
       backgroundColor: theme.colorFor(ThemeCode.backgroundPrimary),
       appBar: AppBar(
-        title: const Text(_screenTitle),
+        title: Text(context.translate(I18n.savingsGoalsCreateTitle)),
         backgroundColor: theme.colorFor(ThemeCode.backgroundPrimary),
         elevation: 0,
       ),
       body: SafeArea(
         child: CreateSavingsGoalForm(
-          nameErrorText: _nameValidationMessage(state.nameValidationError),
+          nameErrorText: _nameValidationMessage(
+            context,
+            state.nameValidationError,
+          ),
           targetAmountErrorText: _targetAmountValidationMessage(
+            context,
             state.targetAmountValidationError,
           ),
           descriptionErrorText: _descriptionValidationMessage(
+            context,
             state.descriptionValidationError,
           ),
           isSubmitting: state.isSubmitting,
@@ -101,17 +93,21 @@ class CreateSavingsGoalScreen extends ConsumerWidget {
     );
   }
 
-  String? _snackBarMessage(CreateSavingsGoalViewState state) {
+  String? _snackBarMessage(
+    BuildContext context,
+    CreateSavingsGoalViewState state,
+  ) {
     switch (state.successEvent) {
       case CreateSavingsGoalSuccessEvent.goalCreated:
-        return _successMessage;
+        return context.translate(I18n.savingsGoalsCreateSuccessMessage);
       case null:
         break;
     }
 
     switch (state.errorEvent) {
       case CreateSavingsGoalErrorEvent.submitFailed:
-        return state.errorMessage ?? _submitFailureFallback;
+        return state.errorMessage ??
+            context.translate(I18n.savingsGoalsCreateSubmitFailure);
       case null:
         break;
     }
@@ -120,43 +116,48 @@ class CreateSavingsGoalScreen extends ConsumerWidget {
   }
 
   String? _nameValidationMessage(
+    BuildContext context,
     CreateSavingsGoalNameValidationError? validationError,
   ) {
     switch (validationError) {
       case CreateSavingsGoalNameValidationError.required:
-        return _nameRequiredMessage;
+        return context.translate(I18n.savingsGoalsCreateNameRequired);
       case CreateSavingsGoalNameValidationError.tooShort:
-        return _nameTooShortMessage;
+        return context.translate(I18n.savingsGoalsCreateNameTooShort);
       case CreateSavingsGoalNameValidationError.tooLong:
-        return _nameTooLongMessage;
+        return context.translate(I18n.savingsGoalsCreateNameTooLong);
       case null:
         return null;
     }
   }
 
   String? _targetAmountValidationMessage(
+    BuildContext context,
     CreateSavingsGoalTargetAmountValidationError? validationError,
   ) {
     switch (validationError) {
       case CreateSavingsGoalTargetAmountValidationError.required:
-        return _targetAmountRequiredMessage;
+        return context.translate(I18n.savingsGoalsCreateTargetAmountRequired);
       case CreateSavingsGoalTargetAmountValidationError.invalid:
-        return _targetAmountInvalidMessage;
+        return context.translate(I18n.savingsGoalsCreateTargetAmountInvalid);
       case CreateSavingsGoalTargetAmountValidationError.mustBeGreaterThanZero:
-        return _targetAmountMustBeGreaterThanZeroMessage;
+        return context.translate(
+          I18n.savingsGoalsCreateTargetAmountMustBeGreaterThanZero,
+        );
       case CreateSavingsGoalTargetAmountValidationError.tooHigh:
-        return _targetAmountTooHighMessage;
+        return context.translate(I18n.savingsGoalsCreateTargetAmountTooHigh);
       case null:
         return null;
     }
   }
 
   String? _descriptionValidationMessage(
+    BuildContext context,
     CreateSavingsGoalDescriptionValidationError? validationError,
   ) {
     switch (validationError) {
       case CreateSavingsGoalDescriptionValidationError.tooLong:
-        return _descriptionTooLongMessage;
+        return context.translate(I18n.savingsGoalsCreateDescriptionTooLong);
       case null:
         return null;
     }

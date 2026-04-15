@@ -1,20 +1,12 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localizations/localizations.dart';
 import 'package:savings_goals/src/core/domain/failures/savings_goals_failure.dart';
 import 'package:savings_goals/src/features/detail/presentation/state/savings_goal_detail_view_model.dart';
 import 'package:savings_goals/src/features/detail/presentation/state/savings_goal_detail_view_state.dart';
 import 'package:savings_goals/src/features/detail/widgets/savings_goal_detail_content.dart';
 import 'package:savings_goals/src/features/detail/widgets/savings_goal_detail_error_view.dart';
-
-const _screenTitle = 'Savings goal';
-const _progressUpdatedMessage = 'Savings goal updated.';
-const _loadFailureFallback = 'We could not load the savings goal.';
-const _updateFailureFallback = 'We could not update the savings goal.';
-const _networkFailureMessage = 'Please check your connection and try again.';
-const _goalAchievedTitle = 'Goal achieved';
-const _goalAchievedDescription =
-    'This savings goal has reached its target amount.';
 
 class SavingsGoalDetailScreen extends ConsumerStatefulWidget {
   const SavingsGoalDetailScreen({
@@ -72,7 +64,7 @@ class _SavingsGoalDetailScreenState
       key: ValueKey<String>('savings_goal_detail_screen_${widget.goalId}'),
       backgroundColor: theme.colorFor(ThemeCode.backgroundPrimary),
       appBar: AppBar(
-        title: const Text(_screenTitle),
+        title: Text(context.translate(I18n.savingsGoalsDetailTitle)),
         backgroundColor: theme.colorFor(ThemeCode.backgroundPrimary),
         elevation: 0,
       ),
@@ -93,8 +85,9 @@ class _SavingsGoalDetailScreenState
       return SavingsGoalDetailErrorView(
         theme: theme,
         description: _failureMessage(
+          context: context,
           failure: state.failure,
-          fallback: _loadFailureFallback,
+          fallback: context.translate(I18n.savingsGoalsDetailLoadFailure),
         ),
       );
     } else {
@@ -124,9 +117,11 @@ class _SavingsGoalDetailScreenState
         case SavingsGoalDetailSuccessEvent.progressUpdated:
           messenger.hideCurrentSnackBar();
           messenger.showSnackBar(
-            const SnackBar(
-              content: Text(_progressUpdatedMessage),
-              duration: Duration(seconds: 2),
+            SnackBar(
+              content: Text(
+                context.translate(I18n.savingsGoalsDetailProgressUpdatedMessage),
+              ),
+              duration: const Duration(seconds: 2),
             ),
           );
           viewModel.clearEvents();
@@ -136,12 +131,18 @@ class _SavingsGoalDetailScreenState
           await showDialog<void>(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text(_goalAchievedTitle),
-              content: const Text(_goalAchievedDescription),
+              title: Text(
+                context.translate(I18n.savingsGoalsDetailGoalAchievedTitle),
+              ),
+              content: Text(
+                context.translate(
+                  I18n.savingsGoalsDetailGoalAchievedDescription,
+                ),
+              ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('OK'),
+                  child: Text(context.translate(I18n.ok)),
                 ),
               ],
             ),
@@ -158,8 +159,9 @@ class _SavingsGoalDetailScreenState
             SnackBar(
               content: Text(
                 _failureMessage(
+                  context: context,
                   failure: state.failure,
-                  fallback: _updateFailureFallback,
+                  fallback: context.translate(I18n.savingsGoalsDetailUpdateFailure),
                 ),
               ),
               duration: const Duration(seconds: 2),
@@ -176,6 +178,7 @@ class _SavingsGoalDetailScreenState
   }
 
   String _failureMessage({
+    required BuildContext context,
     required SavingsGoalsFailure? failure,
     required String fallback,
   }) {
@@ -184,7 +187,7 @@ class _SavingsGoalDetailScreenState
     } else {
       return failure.when(
         duplicateNameConflict: (message) => message,
-        networkError: () => _networkFailureMessage,
+        networkError: () => context.translate(I18n.networkErrorTryAgain),
         unknownError: () => fallback,
       );
     }

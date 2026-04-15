@@ -1,12 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:localizations/localizations.dart';
 import 'package:savings_goals/src/core/domain/entities/savings_goal.dart';
-
-const _targetAmountLabel = 'Target amount';
-const _currentAmountLabel = 'Current amount';
-const _contributionLabel = 'Contribution amount';
-const _contributionHint = 'Enter the amount to add';
-const _submitLabel = 'Update progress';
 
 class SavingsGoalDetailContent extends StatelessWidget {
   const SavingsGoalDetailContent({
@@ -70,13 +65,17 @@ class SavingsGoalDetailContent extends StatelessWidget {
                 const SizedBox(height: 24),
                 _AmountRow(
                   theme: theme,
-                  label: _currentAmountLabel,
+                  label: context.translate(
+                    I18n.savingsGoalsDetailCurrentAmountLabel,
+                  ),
                   value: _currency(goal.currentAmount),
                 ),
                 const SizedBox(height: 12),
                 _AmountRow(
                   theme: theme,
-                  label: _targetAmountLabel,
+                  label: context.translate(
+                    I18n.savingsGoalsDetailTargetAmountLabel,
+                  ),
                   value: _currency(goal.targetAmount),
                 ),
                 const SizedBox(height: 20),
@@ -118,15 +117,15 @@ class SavingsGoalDetailContent extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         SfTextInput(
-          label: _contributionLabel,
+          label: context.translate(I18n.savingsGoalsDetailContributionLabel),
           controller: contributionController,
-          hintText: _contributionHint,
+          hintText: context.translate(I18n.savingsGoalsDetailContributionHint),
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           onChanged: onContributionChanged,
         ),
         const SizedBox(height: 24),
         PrimaryButton(
-          label: _submitLabel,
+          label: context.translate(I18n.savingsGoalsDetailSubmitLabel),
           onPressed: isSubmitEnabled ? () => onSubmit() : null,
           isLoading: isSubmitting,
         ),

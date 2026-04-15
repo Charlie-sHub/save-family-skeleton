@@ -2,20 +2,12 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localizations/localizations.dart';
 import 'package:navigation/navigation.dart';
 import 'package:savings_goals/src/core/domain/failures/savings_goals_failure.dart';
 import 'package:savings_goals/src/features/list/presentation/state/savings_goals_list_view_model.dart';
 import 'package:savings_goals/src/features/list/presentation/state/savings_goals_list_view_state.dart';
 import 'package:savings_goals/src/features/list/widgets/savings_goals_list_body.dart';
-
-const _screenTitle = 'Savings goals';
-const _createGoalLabel = 'New goal';
-const _refreshedMessage = 'Savings goals refreshed.';
-const _goalDeletedMessage = 'Savings goal deleted.';
-const _loadFailureFallback = 'We could not load the savings goals.';
-const _refreshFailureFallback = 'We could not refresh the savings goals.';
-const _deleteFailureFallback = 'We could not delete the savings goal.';
-const _networkFailureMessage = 'Please check your connection and try again.';
 
 class SavingsGoalsListScreen extends ConsumerWidget {
   const SavingsGoalsListScreen({required this.childId, super.key});
@@ -33,7 +25,7 @@ class SavingsGoalsListScreen extends ConsumerWidget {
       if (next.errorEvent == null && next.successEvent == null) {
         return;
       } else {
-        final message = _snackBarMessage(next);
+        final message = _snackBarMessage(context, next);
         if (message != null) {
           final messenger = ScaffoldMessenger.of(context);
           messenger.hideCurrentSnackBar();
@@ -53,7 +45,7 @@ class SavingsGoalsListScreen extends ConsumerWidget {
       key: ValueKey<String>('savings_goals_list_screen_${state.childId}'),
       backgroundColor: theme.colorFor(ThemeCode.backgroundPrimary),
       appBar: AppBar(
-        title: const Text(_screenTitle),
+        title: Text(context.translate(I18n.savingsGoalsListTitle)),
         backgroundColor: theme.colorFor(ThemeCode.backgroundPrimary),
         elevation: 0,
       ),
@@ -68,27 +60,31 @@ class SavingsGoalsListScreen extends ConsumerWidget {
               _navigateToDetail(context, state.childId, goalId),
           onDeleteGoal: viewModel.deleteGoal,
           loadErrorDescription: _failureMessage(
+            context: context,
             failure: state.failure,
-            fallback: _loadFailureFallback,
+            fallback: context.translate(I18n.savingsGoalsListLoadFailure),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _navigateToCreate(context, state.childId),
         backgroundColor: theme.colorFor(ThemeCode.buttonPrimary),
-        foregroundColor: Colors.white,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         icon: const Icon(Icons.add),
-        label: const Text(_createGoalLabel),
+        label: Text(context.translate(I18n.savingsGoalsListCreateCta)),
       ),
     );
   }
 
-  String? _snackBarMessage(SavingsGoalsListViewState state) {
+  String? _snackBarMessage(
+    BuildContext context,
+    SavingsGoalsListViewState state,
+  ) {
     switch (state.successEvent) {
       case SavingsGoalsListSuccessEvent.refreshed:
-        return _refreshedMessage;
+        return context.translate(I18n.savingsGoalsListRefreshedMessage);
       case SavingsGoalsListSuccessEvent.goalDeleted:
-        return _goalDeletedMessage;
+        return context.translate(I18n.savingsGoalsListDeletedMessage);
       case null:
         break;
     }
@@ -96,14 +92,16 @@ class SavingsGoalsListScreen extends ConsumerWidget {
     switch (state.errorEvent) {
       case SavingsGoalsListErrorEvent.deleteFailed:
         return _failureMessage(
+          context: context,
           failure: state.failure,
-          fallback: _deleteFailureFallback,
+          fallback: context.translate(I18n.savingsGoalsListDeleteFailure),
         );
       case SavingsGoalsListErrorEvent.loadFailed:
         if (state.goals.isNotEmpty) {
           return _failureMessage(
+            context: context,
             failure: state.failure,
-            fallback: _refreshFailureFallback,
+            fallback: context.translate(I18n.savingsGoalsListRefreshFailure),
           );
         }
       case null:
@@ -114,6 +112,7 @@ class SavingsGoalsListScreen extends ConsumerWidget {
   }
 
   String _failureMessage({
+    required BuildContext context,
     required SavingsGoalsFailure? failure,
     required String fallback,
   }) {
@@ -122,7 +121,7 @@ class SavingsGoalsListScreen extends ConsumerWidget {
     } else {
       return failure.when(
         duplicateNameConflict: (message) => message,
-        networkError: () => _networkFailureMessage,
+        networkError: () => context.translate(I18n.networkErrorTryAgain),
         unknownError: () => fallback,
       );
     }

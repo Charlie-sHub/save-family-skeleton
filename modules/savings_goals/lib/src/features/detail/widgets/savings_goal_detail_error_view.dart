@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-
-const _loadFailureTitle = 'Something went wrong';
+import 'package:localizations/localizations.dart';
 
 class SavingsGoalDetailErrorView extends StatelessWidget {
   const SavingsGoalDetailErrorView({
@@ -25,7 +24,7 @@ class SavingsGoalDetailErrorView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  _loadFailureTitle,
+                  context.translate(I18n.error),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
