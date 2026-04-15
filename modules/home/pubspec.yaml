@@ -20,6 +20,8 @@ dependencies:
     path: ../../packages/localizations
   navigation:
     path: ../../packages/navigation
+  savings_goals:
+    path: ../../modules/savings_goals
 
 dev_dependencies:
   flutter_test:

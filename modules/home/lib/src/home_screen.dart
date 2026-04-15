@@ -1,9 +1,12 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:home/src/presentation/state/home_view_model.dart';
 import 'package:home/src/presentation/state/home_view_state.dart';
+import 'package:home/src/widgets/home_child_summary_card.dart';
 import 'package:localizations/localizations.dart';
+import 'package:navigation/navigation.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -16,7 +19,9 @@ class HomeScreen extends ConsumerWidget {
 
     ref.listen<HomeViewState>(homeViewModelProvider, (previous, next) {
       if (next.successEvent != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        final messenger = ScaffoldMessenger.of(context);
+        messenger.hideCurrentSnackBar();
+        messenger.showSnackBar(
           SnackBar(
             content: Text(context.translate(I18n.homeRefresh)),
             duration: const Duration(seconds: 1),
@@ -55,19 +60,9 @@ class HomeScreen extends ConsumerWidget {
                   color: theme.colorFor(ThemeCode.textSecondary),
                 ),
               ),
-              const SizedBox(height: 32),
-              if (state.isLoading)
-                const LoadingIndicator()
-              else
-                Text(
-                  '${state.counter}',
-                  style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorFor(ThemeCode.buttonPrimary),
-                  ),
-                ),
-              const Spacer(),
+              const SizedBox(height: 24),
+              Expanded(child: _buildBody(context, state, theme)),
+              const SizedBox(height: 16),
               PrimaryButton(
                 label: context.translate(I18n.homeRefresh),
                 onPressed: state.isLoading ? null : viewModel.refresh,
@@ -78,5 +73,55 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    HomeViewState state,
+    ThemePort theme,
+  ) {
+    if (state.isLoading) {
+      return const Center(child: LoadingIndicator());
+    } else if (state.childSavingsSummaries.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.savings_outlined,
+              size: 40,
+              color: theme.colorFor(ThemeCode.textSecondary),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.translate(I18n.homeSubtitle),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                color: theme.colorFor(ThemeCode.textSecondary),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return ListView.separated(
+        itemCount: state.childSavingsSummaries.length,
+        separatorBuilder: (_, _) => const SizedBox(height: 16),
+        itemBuilder: (context, index) {
+          final summary = state.childSavingsSummaries[index];
+
+          return HomeChildSummaryCard(
+            childName: summary.childName,
+            goalsCount: summary.goalsCount,
+            totalCurrentAmount: summary.totalCurrentAmount,
+            totalTargetAmount: summary.totalTargetAmount,
+            theme: theme,
+            onTap: () =>
+                context.push(AppRoutes.savingsGoalsListPath(summary.childId)),
+          );
+        },
+      );
+    }
   }
 }
