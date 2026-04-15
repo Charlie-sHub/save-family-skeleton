@@ -3,8 +3,7 @@ abstract final class I18n {
   static const String homeWelcome = 'homeWelcome';
   static const String homeSubtitle = 'homeSubtitle';
   static const String homeRefresh = 'homeRefresh';
-  static const String homeChildSummarySingleGoal =
-      'homeChildSummarySingleGoal';
+  static const String homeChildSummarySingleGoal = 'homeChildSummarySingleGoal';
   static const String homeChildSummaryMultipleGoals =
       'homeChildSummaryMultipleGoals';
 
@@ -33,10 +32,13 @@ abstract final class I18n {
       'savingsGoalsListRefreshFailure';
   static const String savingsGoalsListDeleteFailure =
       'savingsGoalsListDeleteFailure';
-  static const String savingsGoalsListEmptyTitle =
-      'savingsGoalsListEmptyTitle';
+  static const String savingsGoalsListEmptyTitle = 'savingsGoalsListEmptyTitle';
   static const String savingsGoalsListEmptyDescription =
       'savingsGoalsListEmptyDescription';
+  static const String savingsGoalsListHideCompletedToggle =
+      'savingsGoalsListHideCompletedToggle';
+  static const String savingsGoalsListHiddenCompletedMessage =
+      'savingsGoalsListHiddenCompletedMessage';
 
   static const String savingsGoalsCreateTitle = 'savingsGoalsCreateTitle';
   static const String savingsGoalsCreateSuccessMessage =
@@ -45,8 +47,7 @@ abstract final class I18n {
       'savingsGoalsCreateSubmitFailure';
   static const String savingsGoalsCreateNameLabel =
       'savingsGoalsCreateNameLabel';
-  static const String savingsGoalsCreateNameHint =
-      'savingsGoalsCreateNameHint';
+  static const String savingsGoalsCreateNameHint = 'savingsGoalsCreateNameHint';
   static const String savingsGoalsCreateTargetAmountLabel =
       'savingsGoalsCreateTargetAmountLabel';
   static const String savingsGoalsCreateTargetAmountHint =

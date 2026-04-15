@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:localizations/localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:savings_goals/src/core/providers/savings_goals_preferences_provider.dart';
 import 'package:savings_goals/src/features/list/savings_goals_list_screen.dart';
 
 void main() {
@@ -11,10 +13,16 @@ void main() {
       'shows the error state for child-error and retry keeps the same path',
       (tester) async {
         // Arrange
+        SharedPreferences.setMockInitialValues({});
+        final sharedPreferences = await SharedPreferences.getInstance();
+
         await tester.pumpWidget(
           ProviderScope(
             overrides: [
               themePortProvider.overrideWithValue(ThemeAdapter()),
+              savingsGoalsPreferencesProvider.overrideWithValue(
+                sharedPreferences,
+              ),
             ],
             child: const MaterialApp(
               locale: const Locale('en'),

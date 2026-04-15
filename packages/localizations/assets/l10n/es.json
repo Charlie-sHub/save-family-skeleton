@@ -25,6 +25,8 @@
   "savingsGoalsListDeleteFailure": "No pudimos eliminar la meta de ahorro.",
   "savingsGoalsListEmptyTitle": "Todavía no hay metas de ahorro",
   "savingsGoalsListEmptyDescription": "Creá la primera meta para este niño para empezar.",
+  "savingsGoalsListHideCompletedToggle": "Ocultar metas completadas",
+  "savingsGoalsListHiddenCompletedMessage": "Las metas completadas están ocultas por el filtro activo.",
   "savingsGoalsCreateTitle": "Nueva meta de ahorro",
   "savingsGoalsCreateSuccessMessage": "Se creó la meta de ahorro.",
   "savingsGoalsCreateSubmitFailure": "No pudimos crear la meta de ahorro.",

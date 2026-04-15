@@ -25,6 +25,8 @@
   "savingsGoalsListDeleteFailure": "We could not delete the savings goal.",
   "savingsGoalsListEmptyTitle": "No savings goals yet",
   "savingsGoalsListEmptyDescription": "Create the first goal for this child to get started.",
+  "savingsGoalsListHideCompletedToggle": "Hide completed goals",
+  "savingsGoalsListHiddenCompletedMessage": "Completed goals are hidden by the active filter.",
   "savingsGoalsCreateTitle": "New savings goal",
   "savingsGoalsCreateSuccessMessage": "Savings goal created.",
   "savingsGoalsCreateSubmitFailure": "We could not create the savings goal.",

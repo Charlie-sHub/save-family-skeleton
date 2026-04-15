@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:savings_goals/src/core/domain/entities/savings_goal.dart';
 import 'package:savings_goals/src/core/domain/failures/savings_goals_failure.dart';
+import 'package:savings_goals/src/core/providers/savings_goals_preferences_provider.dart';
 import 'package:savings_goals/src/core/providers/savings_goals_repository_provider.dart';
 import 'package:savings_goals/src/features/list/presentation/state/savings_goals_list_view_state.dart';
 
@@ -9,15 +13,28 @@ final savingsGoalsListViewModelProvider = NotifierProvider.autoDispose
     );
 
 class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
+  static const _hideCompletedGoalsPreferenceKey =
+      'savings_goals_hide_completed_goals';
+
   SavingsGoalsListViewModel(this.childId);
 
   final String childId;
+  int _fetchRequestId = 0;
+  List<SavingsGoal> _goalsCache = const [];
 
   @override
   SavingsGoalsListViewState build() {
+    final hideCompletedGoals =
+        ref
+            .read(savingsGoalsPreferencesProvider)
+            .getBool(_hideCompletedGoalsPreferenceKey) ??
+        false;
     Future.microtask(_loadInitial);
 
-    return SavingsGoalsListViewState.initial(childId: childId);
+    return SavingsGoalsListViewState.initial(
+      childId: childId,
+      hideCompletedGoals: hideCompletedGoals,
+    );
   }
 
   Future<void> refresh() async =>
@@ -26,6 +43,23 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
   Future<void> reload() async => await _fetchGoals();
 
   Future<void> retry() async => await _fetchGoals();
+
+  Future<void> toggleHideCompletedGoals(bool value) async {
+    if (state.hideCompletedGoals == value) {
+      return;
+    } else {
+      state = state.copyWith(
+        hideCompletedGoals: value,
+        goals: _visibleGoals(goals: _goalsCache, hideCompletedGoals: value),
+      );
+    }
+
+    unawaited(
+      ref
+          .read(savingsGoalsPreferencesProvider)
+          .setBool(_hideCompletedGoalsPreferenceKey, value),
+    );
+  }
 
   Future<void> deleteGoal(String goalId) async {
     state = state.copyWith(failure: null, errorEvent: null, successEvent: null);
@@ -64,7 +98,7 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
   }
 
   void clearEvents() {
-    if (state.goals.isEmpty) {
+    if (!state.hasGoals) {
       state = state.copyWith(errorEvent: null, successEvent: null);
     } else {
       state = state.copyWith(
@@ -80,6 +114,8 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
   }
 
   Future<void> _fetchGoals({SavingsGoalsListSuccessEvent? successEvent}) async {
+    final requestId = ++_fetchRequestId;
+
     state = state.copyWith(
       isLoading: true,
       failure: null,
@@ -92,19 +128,24 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
           .read(savingsGoalsRepositoryProvider)
           .fetchGoals(childId);
 
-      if (!ref.mounted) {
+      if (!ref.mounted || requestId != _fetchRequestId) {
         return;
       } else {
+        _goalsCache = goals;
         state = state.copyWith(
           isLoading: false,
-          goals: goals,
+          hasGoals: goals.isNotEmpty,
+          goals: _visibleGoals(
+            goals: goals,
+            hideCompletedGoals: state.hideCompletedGoals,
+          ),
           failure: null,
           errorEvent: null,
           successEvent: successEvent,
         );
       }
     } on SavingsGoalsFailure catch (failure) {
-      if (!ref.mounted) {
+      if (!ref.mounted || requestId != _fetchRequestId) {
         return;
       } else {
         state = state.copyWith(
@@ -115,7 +156,7 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
         );
       }
     } catch (_) {
-      if (!ref.mounted) {
+      if (!ref.mounted || requestId != _fetchRequestId) {
         return;
       } else {
         state = state.copyWith(
@@ -127,4 +168,20 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
       }
     }
   }
+
+  List<SavingsGoal> _visibleGoals({
+    required List<SavingsGoal> goals,
+    required bool hideCompletedGoals,
+  }) {
+    if (!hideCompletedGoals) {
+      return List<SavingsGoal>.unmodifiable(goals);
+    } else {
+      return List<SavingsGoal>.unmodifiable(
+        goals.where((goal) => !_isCompleted(goal)),
+      );
+    }
+  }
+
+  bool _isCompleted(SavingsGoal goal) =>
+      goal.currentAmount >= goal.targetAmount;
 }

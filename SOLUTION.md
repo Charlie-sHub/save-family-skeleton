@@ -27,8 +27,8 @@ cd ../../apps/mobile_app && flutter test
 
 ## 2. Qué dejé afuera y por qué
 
-- No hice el bonus opcional. Preferí usar ese tiempo para cerrar bien la feature principal, los flujos obligatorios y el mínimo de tests pedido por la consigna.
 - No amplié la cobertura de tests más allá de ese mínimo. Quedaron cubiertos repository, view model de lista y validación del formulario de creación, que me parecían los puntos con mejor relación entre valor y alcance para esta entrega.
+- Del bonus opcional solo implementé el Bonus B. No avancé con los Bonus A o C para mantener el alcance controlado y no desestabilizar la solución obligatoria.
 - Mantuve una solución deliberadamente acotada para evitar sobreconstruir. La integración entre `home` y `savings_goals` quedó resuelta a través de una API pública más chica del módulo, pero sin extraer un contrato compartido a un package común.
 
 ## 3. Qué haría diferente con más tiempo
@@ -39,4 +39,8 @@ cd ../../apps/mobile_app && flutter test
 
 ## 4. Bonus realizado o no realizado
 
-No realicé ningún bonus.
+Realicé el Bonus B: agregué el toggle "ocultar metas completadas" en la lista de objetivos, persistido en `SharedPreferences`.
+
+La preferencia se carga una sola vez al iniciar la app y se inyecta al módulo mediante Riverpod, para que el `Notifier<ViewState>` de la lista la lea de forma síncrona en `build()` y no haya flicker ni race conditions al reconstruir el provider.
+
+La lista sigue trabajando con goals crudos desde repository/datasource y aplica el filtro solo en presentación. Además, el view model cachea la lista original para que cambiar el toggle actualice la UI al instante sin refetch.

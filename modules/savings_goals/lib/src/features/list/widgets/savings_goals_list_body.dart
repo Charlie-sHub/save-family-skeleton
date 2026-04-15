@@ -48,6 +48,25 @@ class SavingsGoalsListBody extends StatelessWidget {
           onPressed: onRetry,
         ),
       );
+    } else if (state.goals.isEmpty && state.hasGoals) {
+      return _buildStatusState(
+        child: SizedBox(
+          height: _statusStateHeight,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                context.translate(I18n.savingsGoalsListHiddenCompletedMessage),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: theme.colorFor(ThemeCode.textSecondary),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
     } else if (state.goals.isEmpty) {
       return _buildStatusState(
         child: SavingsGoalsListMessageView(

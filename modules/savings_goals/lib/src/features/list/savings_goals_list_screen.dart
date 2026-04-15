@@ -50,24 +50,58 @@ class SavingsGoalsListScreen extends ConsumerWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: SavingsGoalsListBody(
-          state: state,
-          theme: theme,
-          onRefresh: viewModel.refresh,
-          onRetry: viewModel.retry,
-          onCreateGoal: () => _navigateToCreate(
-            context: context,
-            childId: state.childId,
-            viewModel: viewModel,
-          ),
-          onGoalTap: (goalId) =>
-              _navigateToDetail(context, state.childId, goalId),
-          onDeleteGoal: viewModel.deleteGoal,
-          loadErrorDescription: _failureMessage(
-            context: context,
-            failure: state.failure,
-            fallback: context.translate(I18n.savingsGoalsListLoadFailure),
-          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+              child: Card(
+                elevation: 0,
+                color: theme.colorFor(ThemeCode.backgroundSecondary),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: theme.colorFor(ThemeCode.border)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: SwitchListTile.adaptive(
+                  value: state.hideCompletedGoals,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  title: Text(
+                    context.translate(I18n.savingsGoalsListHideCompletedToggle),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorFor(ThemeCode.textPrimary),
+                    ),
+                  ),
+                  onChanged: viewModel.toggleHideCompletedGoals,
+                ),
+              ),
+            ),
+            Expanded(
+              child: SavingsGoalsListBody(
+                state: state,
+                theme: theme,
+                onRefresh: viewModel.refresh,
+                onRetry: viewModel.retry,
+                onCreateGoal: () => _navigateToCreate(
+                  context: context,
+                  childId: state.childId,
+                  viewModel: viewModel,
+                ),
+                onGoalTap: (goalId) => _navigateToDetail(
+                  context: context,
+                  childId: state.childId,
+                  goalId: goalId,
+                  viewModel: viewModel,
+                ),
+                onDeleteGoal: viewModel.deleteGoal,
+                loadErrorDescription: _failureMessage(
+                  context: context,
+                  failure: state.failure,
+                  fallback: context.translate(I18n.savingsGoalsListLoadFailure),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -149,6 +183,16 @@ class SavingsGoalsListScreen extends ConsumerWidget {
     }
   }
 
-  void _navigateToDetail(BuildContext context, String childId, String goalId) =>
-      context.push(AppRoutes.savingsGoalDetailPath(childId, goalId));
+  Future<void> _navigateToDetail({
+    required BuildContext context,
+    required String childId,
+    required String goalId,
+    required SavingsGoalsListViewModel viewModel,
+  }) async {
+    await context.push(AppRoutes.savingsGoalDetailPath(childId, goalId));
+
+    if (context.mounted) {
+      await viewModel.reload();
+    }
+  }
 }
