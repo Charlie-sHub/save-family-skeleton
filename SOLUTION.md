@@ -44,3 +44,9 @@ Realicé el Bonus B: agregué el toggle "ocultar metas completadas" en la lista 
 La preferencia se carga una sola vez al iniciar la app y se inyecta al módulo mediante Riverpod, para que el `Notifier<ViewState>` de la lista la lea de forma síncrona en `build()` y no haya flicker ni race conditions al reconstruir el provider.
 
 La lista sigue trabajando con goals crudos desde repository/datasource y aplica el filtro solo en presentación. Además, el view model cachea la lista original para que cambiar el toggle actualice la UI al instante sin refetch.
+
+## 5. Uso de IA
+
+Utilicé herramientas de IA durante el desarrollo mismo de la solución, tanto para acelerar iteración e implementación como para revisar alternativas chicas y ayudar en tareas mecánicas de edición y validación.
+
+Las decisiones de arquitectura, el recorte de alcance y la validación final de los cambios quedaron igualmente apoyados en la consigna, en el código del repositorio y en los checks ejecutados sobre la solución.
