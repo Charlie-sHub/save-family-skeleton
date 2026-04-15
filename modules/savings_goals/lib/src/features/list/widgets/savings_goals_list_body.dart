@@ -8,7 +8,8 @@ const _statusStateHeight = 320.0;
 const _errorTitle = 'Something went wrong';
 const _retryLabel = 'Retry';
 const _emptyTitle = 'No savings goals yet';
-const _emptyDescription = 'Create the first goal for this child to get started.';
+const _emptyDescription =
+    'Create the first goal for this child to get started.';
 const _createGoalLabel = 'Create goal';
 
 class SavingsGoalsListBody extends StatelessWidget {
@@ -18,6 +19,7 @@ class SavingsGoalsListBody extends StatelessWidget {
     required this.onRefresh,
     required this.onRetry,
     required this.onCreateGoal,
+    required this.onGoalTap,
     required this.onDeleteGoal,
     required this.loadErrorDescription,
     super.key,
@@ -28,6 +30,7 @@ class SavingsGoalsListBody extends StatelessWidget {
   final Future<void> Function() onRefresh;
   final Future<void> Function() onRetry;
   final VoidCallback onCreateGoal;
+  final void Function(String goalId) onGoalTap;
   final Future<void> Function(String goalId) onDeleteGoal;
   final String loadErrorDescription;
 
@@ -82,6 +85,7 @@ class SavingsGoalsListBody extends StatelessWidget {
               return SavingsGoalCard(
                 goal: goal,
                 theme: theme,
+                onTap: state.isLoading ? null : () => onGoalTap(goal.id),
                 onDelete: state.isLoading ? null : () => onDeleteGoal(goal.id),
               );
             }

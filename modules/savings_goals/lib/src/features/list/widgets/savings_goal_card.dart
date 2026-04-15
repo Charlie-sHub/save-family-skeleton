@@ -8,12 +8,14 @@ class SavingsGoalCard extends StatelessWidget {
   const SavingsGoalCard({
     required this.goal,
     required this.theme,
+    required this.onTap,
     required this.onDelete,
     super.key,
   });
 
   final SavingsGoal goal;
   final ThemePort theme;
+  final VoidCallback? onTap;
   final VoidCallback? onDelete;
 
   @override
@@ -27,84 +29,88 @@ class SavingsGoalCard extends StatelessWidget {
         side: BorderSide(color: theme.colorFor(ThemeCode.border)),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        goal.name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: theme.colorFor(ThemeCode.textPrimary),
-                        ),
-                      ),
-                      if (goal.description != null &&
-                          goal.description!.isNotEmpty) ...[
-                        const SizedBox(height: 6),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          goal.description!,
+                          goal.name,
                           style: TextStyle(
-                            fontSize: 14,
-                            color: theme.colorFor(ThemeCode.textSecondary),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: theme.colorFor(ThemeCode.textPrimary),
                           ),
                         ),
+                        if (goal.description != null &&
+                            goal.description!.isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          Text(
+                            goal.description!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: theme.colorFor(ThemeCode.textSecondary),
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                ),
-                IconButton(
-                  onPressed: onDelete,
-                  tooltip: _deleteGoalTooltip,
-                  icon: Icon(
-                    Icons.delete_outline,
-                    color: theme.colorFor(ThemeCode.error),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    '${_currency(goal.currentAmount)} / ${_currency(goal.targetAmount)}',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorFor(ThemeCode.textPrimary),
                     ),
                   ),
-                ),
-                Text(
-                  '$progressPercent%',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorFor(ThemeCode.buttonPrimary),
+                  IconButton(
+                    onPressed: onDelete,
+                    tooltip: _deleteGoalTooltip,
+                    icon: Icon(
+                      Icons.delete_outline,
+                      color: theme.colorFor(ThemeCode.error),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(999),
-              child: LinearProgressIndicator(
-                value: goal.progressRatio,
-                minHeight: 10,
-                color: theme.colorFor(ThemeCode.buttonPrimary),
-                backgroundColor: theme.colorFor(ThemeCode.border),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${_currency(goal.currentAmount)} / ${_currency(goal.targetAmount)}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorFor(ThemeCode.textPrimary),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    '$progressPercent%',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: theme.colorFor(ThemeCode.buttonPrimary),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(999),
+                child: LinearProgressIndicator(
+                  value: goal.progressRatio,
+                  minHeight: 10,
+                  color: theme.colorFor(ThemeCode.buttonPrimary),
+                  backgroundColor: theme.colorFor(ThemeCode.border),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

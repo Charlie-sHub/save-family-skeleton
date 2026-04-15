@@ -64,6 +64,8 @@ class SavingsGoalsListScreen extends ConsumerWidget {
           onRefresh: viewModel.refresh,
           onRetry: viewModel.retry,
           onCreateGoal: () => _navigateToCreate(context, state.childId),
+          onGoalTap: (goalId) =>
+              _navigateToDetail(context, state.childId, goalId),
           onDeleteGoal: viewModel.deleteGoal,
           loadErrorDescription: _failureMessage(
             failure: state.failure,
@@ -128,4 +130,7 @@ class SavingsGoalsListScreen extends ConsumerWidget {
 
   void _navigateToCreate(BuildContext context, String childId) =>
       context.push(AppRoutes.createSavingsGoalPath(childId));
+
+  void _navigateToDetail(BuildContext context, String childId, String goalId) =>
+      context.push(AppRoutes.savingsGoalDetailPath(childId, goalId));
 }

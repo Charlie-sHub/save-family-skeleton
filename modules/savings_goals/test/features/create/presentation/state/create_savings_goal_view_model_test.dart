@@ -54,8 +54,6 @@ void main() {
     });
 
     test('initial state is not submittable', () {
-      // Arrange
-
       // Act
       final currentState = readState();
 
@@ -66,8 +64,6 @@ void main() {
     test(
       'valid name and valid target amount with empty description become submittable',
       () {
-        // Arrange
-
         // Act
         viewModel.updateName(validName);
         viewModel.updateTargetAmount(validTargetAmount);
@@ -96,8 +92,6 @@ void main() {
     });
 
     test('name at minimum length is valid', () {
-      // Arrange
-
       // Act
       fillValidForm(name: minLengthName);
 
@@ -107,8 +101,6 @@ void main() {
     });
 
     test('name at maximum length is valid', () {
-      // Arrange
-
       // Act
       fillValidForm(name: maxLengthName);
 
@@ -118,8 +110,6 @@ void main() {
     });
 
     test('name above maximum length is invalid', () {
-      // Arrange
-
       // Act
       fillValidForm(name: aboveMaxLengthName);
 
@@ -132,8 +122,6 @@ void main() {
     });
 
     test('target amount at zero is invalid', () {
-      // Arrange
-
       // Act
       fillValidForm(targetAmount: zeroTargetAmount);
 
@@ -146,8 +134,6 @@ void main() {
     });
 
     test('negative target amount is invalid', () {
-      // Arrange
-
       // Act
       fillValidForm(targetAmount: negativeTargetAmount);
 
@@ -160,8 +146,6 @@ void main() {
     });
 
     test('positive decimal target amount is valid', () {
-      // Arrange
-
       // Act
       fillValidForm(targetAmount: validTargetAmount);
 
@@ -171,8 +155,6 @@ void main() {
     });
 
     test('target amount at 10000 is valid', () {
-      // Arrange
-
       // Act
       fillValidForm(targetAmount: maxTargetAmount);
 
@@ -182,8 +164,6 @@ void main() {
     });
 
     test('target amount above 10000 is invalid', () {
-      // Arrange
-
       // Act
       fillValidForm(targetAmount: aboveMaxTargetAmount);
 
@@ -208,8 +188,6 @@ void main() {
     });
 
     test('description at 200 characters is valid', () {
-      // Arrange
-
       // Act
       fillValidForm(description: maxLengthDescription);
 
@@ -219,8 +197,6 @@ void main() {
     });
 
     test('description above 200 characters is invalid', () {
-      // Arrange
-
       // Act
       fillValidForm(description: aboveMaxLengthDescription);
 

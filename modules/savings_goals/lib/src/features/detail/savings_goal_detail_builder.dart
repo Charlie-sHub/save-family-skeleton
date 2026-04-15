@@ -11,10 +11,7 @@ class SavingsGoalDetailBuilder {
 
     return MaterialPage(
       key: state.pageKey,
-      child: SavingsGoalDetailScreen(
-        childId: childId,
-        goalId: goalId,
-      ),
+      child: SavingsGoalDetailScreen(childId: childId, goalId: goalId),
     );
   }
 }
