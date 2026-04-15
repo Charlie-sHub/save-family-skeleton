@@ -1,7 +1,7 @@
 {
   "home": "Home",
   "homeWelcome": "Welcome",
-  "homeSubtitle": "This is the reference module. Use it as a guide for building your feature.",
+  "homeSubtitle": "Track each child's savings goals and progress.",
   "homeRefresh": "Refresh",
   "homeChildSummarySingleGoal": "1 goal · {currentAmount} / {targetAmount}",
   "homeChildSummaryMultipleGoals": "{goalsCount} goals · {currentAmount} / {targetAmount}",

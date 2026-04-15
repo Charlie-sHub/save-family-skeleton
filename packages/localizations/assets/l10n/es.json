@@ -1,7 +1,7 @@
 {
   "home": "Inicio",
   "homeWelcome": "Bienvenido",
-  "homeSubtitle": "Este es el módulo de referencia. Usalo como guía para construir tu feature.",
+  "homeSubtitle": "Seguí las metas de ahorro y el progreso de cada niño.",
   "homeRefresh": "Actualizar",
   "homeChildSummarySingleGoal": "1 meta · {currentAmount} / {targetAmount}",
   "homeChildSummaryMultipleGoals": "{goalsCount} metas · {currentAmount} / {targetAmount}",

@@ -8,10 +8,7 @@ import 'package:savings_goals/src/features/create/presentation/state/create_savi
 import 'package:savings_goals/src/features/create/widgets/create_savings_goal_form.dart';
 
 class CreateSavingsGoalScreen extends ConsumerWidget {
-  const CreateSavingsGoalScreen({
-    required this.childId,
-    super.key,
-  });
+  const CreateSavingsGoalScreen({required this.childId, super.key});
 
   final String childId;
 
@@ -35,7 +32,7 @@ class CreateSavingsGoalScreen extends ConsumerWidget {
 
         if (next.successEvent == CreateSavingsGoalSuccessEvent.goalCreated) {
           viewModel.clearEvents();
-          context.pop();
+          context.pop(true);
 
           if (message != null) {
             messenger.showSnackBar(

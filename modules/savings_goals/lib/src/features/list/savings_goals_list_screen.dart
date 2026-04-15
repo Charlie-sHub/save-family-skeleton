@@ -55,7 +55,11 @@ class SavingsGoalsListScreen extends ConsumerWidget {
           theme: theme,
           onRefresh: viewModel.refresh,
           onRetry: viewModel.retry,
-          onCreateGoal: () => _navigateToCreate(context, state.childId),
+          onCreateGoal: () => _navigateToCreate(
+            context: context,
+            childId: state.childId,
+            viewModel: viewModel,
+          ),
           onGoalTap: (goalId) =>
               _navigateToDetail(context, state.childId, goalId),
           onDeleteGoal: viewModel.deleteGoal,
@@ -67,7 +71,11 @@ class SavingsGoalsListScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _navigateToCreate(context, state.childId),
+        onPressed: () => _navigateToCreate(
+          context: context,
+          childId: state.childId,
+          viewModel: viewModel,
+        ),
         backgroundColor: theme.colorFor(ThemeCode.buttonPrimary),
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         icon: const Icon(Icons.add),
@@ -127,8 +135,19 @@ class SavingsGoalsListScreen extends ConsumerWidget {
     }
   }
 
-  void _navigateToCreate(BuildContext context, String childId) =>
-      context.push(AppRoutes.createSavingsGoalPath(childId));
+  Future<void> _navigateToCreate({
+    required BuildContext context,
+    required String childId,
+    required SavingsGoalsListViewModel viewModel,
+  }) async {
+    final shouldReload = await context.push<bool>(
+      AppRoutes.createSavingsGoalPath(childId),
+    );
+
+    if (context.mounted && shouldReload == true) {
+      await viewModel.reload();
+    }
+  }
 
   void _navigateToDetail(BuildContext context, String childId, String goalId) =>
       context.push(AppRoutes.savingsGoalDetailPath(childId, goalId));

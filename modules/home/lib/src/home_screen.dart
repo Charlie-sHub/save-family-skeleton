@@ -117,11 +117,25 @@ class HomeScreen extends ConsumerWidget {
             totalCurrentAmount: summary.totalCurrentAmount,
             totalTargetAmount: summary.totalTargetAmount,
             theme: theme,
-            onTap: () =>
-                context.push(AppRoutes.savingsGoalsListPath(summary.childId)),
+            onTap: () => _navigateToSavingsGoals(
+              context: context,
+              childId: summary.childId,
+            ),
           );
         },
       );
+    }
+  }
+
+  Future<void> _navigateToSavingsGoals({
+    required BuildContext context,
+    required String childId,
+  }) async {
+    await context.push(AppRoutes.savingsGoalsListPath(childId));
+
+    if (context.mounted) {
+      final container = ProviderScope.containerOf(context, listen: false);
+      await container.read(homeViewModelProvider.notifier).reload();
     }
   }
 }

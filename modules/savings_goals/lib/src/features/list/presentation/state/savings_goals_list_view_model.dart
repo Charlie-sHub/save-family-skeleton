@@ -23,6 +23,8 @@ class SavingsGoalsListViewModel extends Notifier<SavingsGoalsListViewState> {
   Future<void> refresh() async =>
       await _fetchGoals(successEvent: SavingsGoalsListSuccessEvent.refreshed);
 
+  Future<void> reload() async => await _fetchGoals();
+
   Future<void> retry() async => await _fetchGoals();
 
   Future<void> deleteGoal(String goalId) async {

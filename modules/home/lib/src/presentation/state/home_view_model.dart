@@ -19,6 +19,8 @@ class HomeViewModel extends Notifier<HomeViewState> {
     successEvent: HomeSuccessEvent.refreshed,
   );
 
+  Future<void> reload() async => await _fetchChildSavingsSummaries();
+
   void clearEvents() => state = state.copyWith(successEvent: null);
 
   Future<void> _loadInitial() async => await _fetchChildSavingsSummaries();
@@ -26,10 +28,7 @@ class HomeViewModel extends Notifier<HomeViewState> {
   Future<void> _fetchChildSavingsSummaries({
     HomeSuccessEvent? successEvent,
   }) async {
-    state = state.copyWith(
-      isLoading: true,
-      successEvent: null,
-    );
+    state = state.copyWith(isLoading: true, successEvent: null);
 
     try {
       final childSavingsSummaries = await Future.wait([
@@ -50,10 +49,7 @@ class HomeViewModel extends Notifier<HomeViewState> {
       if (!ref.mounted) {
         return;
       } else {
-        state = state.copyWith(
-          isLoading: false,
-          successEvent: null,
-        );
+        state = state.copyWith(isLoading: false, successEvent: null);
       }
     }
   }
@@ -62,9 +58,7 @@ class HomeViewModel extends Notifier<HomeViewState> {
     required String childId,
     required String childName,
   }) async {
-    final goals = await ref
-        .read(savingsGoalsRepositoryProvider)
-        .fetchGoals(childId);
+    final goals = await ref.read(homeSavingsGoalsProvider)(childId);
 
     final totalCurrentAmount = goals.fold<double>(
       0,
