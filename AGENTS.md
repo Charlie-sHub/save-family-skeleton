@@ -141,3 +141,38 @@ When asked for a commit message:
 - inspect the staged diff first
 - use a short, specific, past-tense summary
 - avoid vague messages
+
+## Conventions and constraints
+
+- Make the smallest change that fully solves the task.
+- Do not do unrelated refactors, broad rewrites, or speculative improvements.
+- Follow the structure and conventions already established in the repo, especially the builder, screen, and `Notifier<ViewState>` patterns used in `modules/home/`.
+- Treat `test.md` and the existing repo structure as the source of truth over generic framework preferences.
+- Stay close to the skeleton unless there is a clear technical reason to deviate.
+- Prefer solutions that are easy to understand, easy to review, and consistent with the rest of the codebase.
+- Prefer existing widgets, localization flow, theme tokens, provider patterns, route helpers, and file structure before introducing new ones.
+- Keep styling values centralized through the existing design system and theme layer. Do not scatter visual constants through feature screens.
+- Use descriptive names, keep constants centralized, and avoid scattered magic values.
+- Keep modules narrowly scoped. Do not couple one module to another through internal implementation details when a small public surface or existing abstraction is enough.
+- Keep business logic out of widgets. UI should render state and trigger actions; view models and repositories should hold behavior.
+- Keep data, domain, and presentation responsibilities separated. Do not expose data-layer models directly to presentation when domain entities are expected.
+- Prefer `if (...) { ... } else { ... }` over just `if (...) { ... } ...` in case of early return and similar.
+- Avoid long early-return chains when they make the logic harder to follow.
+- Prefer expression methods where possible
+- Keep view states explicit and typed. Use typed success and error events for one-shot UI effects, and handle those effects via listeners rather than inside `build()`.
+- Keep routing consistent with the repo’s GoRouter builder pattern. New routes should be explicit, readable, and easy to trace.
+- Keep user-facing text fully localized through the existing localization system. Do not hardcode visible strings in screens or widgets.
+- Keep public-facing copy and docs professional, factual, and restrained.
+- Do not overstate architecture, scalability, or production-readiness beyond what the implementation actually proves.
+- Do not place secrets, tokens, personal data, or misleading example data in code, docs, fixtures, or tests.
+- Do not introduce new shared packages or cross-module abstractions unless the task clearly requires them.
+- Prefer small, reviewable edits. Strong default: one coherent file at a time unless the change genuinely requires touching several files together.
+- After each meaningful change, run the most relevant verification for that scope instead of making many unverified edits in a row.
+
+## Technical priorities
+
+- Prioritize correctness, clarity, and alignment with the task over cleverness.
+- Build only what the task requires before considering extras.
+- Use fake infrastructure behind proper abstractions so the upper layers would not need to change when replacing the datasource later.
+- Favor solutions that are straightforward to reason about and consistent with the repo.
+- When multiple valid approaches exist, prefer the one that stays closest to the repo and the challenge requirements.
